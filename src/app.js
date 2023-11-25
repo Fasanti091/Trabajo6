@@ -19,6 +19,8 @@ import initializeStrategies from './config/passport.config.js';
 import dictionaryRouter from './router/dictionary.router.js';
 import cors from 'cors';
 import nodemailer from 'nodemailer';
+import errorHandler from './middlewares/errorHandler.js';
+import attachLogger from './middlewares/attachLogger.js';
 
 //variables de entorno del .env
 const DB_URL = process.env.DB_URL;
@@ -122,3 +124,14 @@ app.get('/mails', async(req,res)=>
     console.log(mailResult);
     res.sendStatus(200);
 })
+
+ //logger endpoint 
+ app.get('/loggerTest', attachLogger, async(req,res)=>
+ {
+     logger.log('debug', "prueba logger");
+     logger.log('http', "prueba logger");
+     logger.log('info', "prueba logger");
+     logger.log('error', "prueba logger");
+     logger.log('fatal', "prueba logger");
+     res.sendStatus(200);
+ })
